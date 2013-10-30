@@ -1,8 +1,10 @@
 require 'spec_helper'
 
 describe Api::MeasurementsController do
+  fixtures :measurements
 
-  context 'index' do
+  describe 'index' do
+
     it "should return all measurements for all sensors in json" do
       get api_measurements_path, format: :json
       response.should be_success
@@ -11,11 +13,16 @@ describe Api::MeasurementsController do
     it "should return all measurements for all sensors in csv" do
       get api_measurements_path, format: :csv
       response.should be_success
+
+      csv = CSV.parse response.body
+      csv.should_not be_nil
+      csv.should have(3).things
     end
+
   end
 
 
-  context 'create' do
+  describe 'create' do
     it 'should add new measurement to db' do
    
       expect {

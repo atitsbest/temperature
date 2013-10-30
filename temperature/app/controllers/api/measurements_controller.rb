@@ -2,10 +2,10 @@ class Api::MeasurementsController < ApplicationController
   
   # Alle Measurements ermitteln.
   def index
-    @ms = Measurement.order(:created_at)
+    ms = Measurement.order(:created_at)
     respond_to do |f|
-      f.json { render json: @ms }
-      f.csv { render text: @ms.to_csv }
+      f.json { render json: ms.to_a }
+      f.csv { render text: ms.to_csv }
     end
   end
 
