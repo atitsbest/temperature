@@ -10,15 +10,6 @@ describe Api::MeasurementsController do
       response.should be_success
     end
 
-    it "should return all measurements for all sensors in csv" do
-      get api_measurements_path, format: :csv
-      response.should be_success
-
-      csv = CSV.parse response.body
-      csv.should_not be_nil
-      csv.should have(3).things
-    end
-
   end
 
 
