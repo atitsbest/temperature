@@ -43,7 +43,7 @@ GEM
     diff-lcs (1.2.4)
     erubis (2.7.0)
     execjs (2.0.2)
-    ffi (1.9.2)
+    ffi (1.9.3)
     formatador (0.2.4)
     guard (2.2.2)
       formatador (>= 0.2.4)
@@ -79,6 +79,8 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
+    puma (2.6.0)
+      rack (>= 1.1, < 2.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -159,6 +161,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   pg
+  puma
   rails (= 4.0.0)
   rspec-rails (~> 2.0)
   sass-rails (~> 4.0.0)
