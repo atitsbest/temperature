@@ -1,6 +1,6 @@
 ﻿#!/usr/bin/env bash
 
-# The DEBIAN_FRONTEND=noninteractive setting will prevent dialogs that ask you to enter settings while installing and/or updating packages and will use the default instead, you’ll need this setting because you can’t interactively answer these prompts when the Vagrant provisioner runs.
+# The DEBIAN_FRONTEND=noninteractive setting will prevent dialogs that ask you to enter settings while installing and/or updating packages and will use the default instead, you'll need this setting because you can't interactively answer these prompts when the Vagrant provisioner runs.
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y update > /dev/null
 sudo apt-get -y remove ruby
@@ -15,37 +15,45 @@ sudo apt-get -y install \
   postgresql-client-9.1 \
   postgresql-server-dev-9.1 \
   imagemagick \
-  nginx
+  nginx \
+  rubygems \
+  vim
+
+
+# Vorhandenes Rbenv entfernen.
+rm -rf $HOME/.rbenv
 
 # Rbenv installieren
-cd /home/$SUDO_USER
-git clone https://github.com/sstephenson/rbenv.git .rbenv \
-  && echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> /home/$SUDO_USER/.bash_profile \
-  && echo 'eval "$(rbenv init -)"' >> /home/$SUDO_USER/.bash_profile \
-  && echo 'Rbenv installed.'
+curl https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
 
-# Ruby-build
-git clone https://github.com/sstephenson/ruby-build.git /home/$SUDO_USER/.rbenv/plugins/ruby-build
+# Add rbenv to the path
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 
-# Set permissions
-chown -R $SUDO_USER /home/$SUDO_USER/.rbenv
-chgrp -R $SUDO_USER /home/$SUDO_USER/.rbenv
-chown -R $SUDO_USER /home/$SUDO_USER/.bashrc
-chgrp -R $SUDO_USER /home/$SUDO_USER/.bashrc
+# Load rbenv config
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 
+# Bootstrap rbenv
+rbenv bootstrap-ubuntu-12-04
 
 # Ruyb installieren
-su - $SUDO_USER -c "rbenv install 2.0.0-p247"
-su - $SUDO_USER -c "rbenv rehash"
-su - $SUDO_USER -c "rbenv global 2.0.0-p247"
-su - $SUDO_USER -c "rbenv rehash"
+echo 'Ruby installieren...'
+rbenv install 2.0.0-p247
+rbenv rehash
+echo 'Ruby-Version setzten...'
+rbenv global 2.0.0-p247
+rbenv/bin/rbenv rehash
+
+# Rubygems konfigurieren.
+echo 'gem: --no-ri --no-rdoc' > ~/.gemrc
 
 # Rails installieren
-su - $SUDO_USER -c "gem install bundler --no-ri --no-rdoc"
-su - $SUDO_USER -c "rbenv rehash"
-
-su - $SUDO_USER -c "gem install rails --no-ri --no-rdoc"
-su - $SUDO_USER -c "rbenv rehash"
+echo 'Rails installieren...'
+sudo rbenv exec gem install bundler 
+rbenv rehash
+sudo rbenv exec gem install rails 
+rbenv rehash
 
 # Postgresql Benutzer und DB anlegen
 sudo pg_dropcluster --stop 9.1 main
