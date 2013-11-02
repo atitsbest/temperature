@@ -1,0 +1,45 @@
+<div class="page-header">
+  <h1>Temperaturen <small>Pfarrhaus</small></h1>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <h4>
+      11. Speptember - 11. Okotober<br/>
+      <small>Nur so ein Test</small>
+    </h4>
+  </div>
+  <div class="col-md-8">
+    <ul class="nav nav-pills pull-right">
+      <li><a href="#">Gesamt</a></li>
+      <li><a href="#">6 Monate</a></li>
+      <li class="active"><a href="#">Monat</a></li>
+      <li><a href="#">Woche</a></li>
+      <li><a href="#">Tag</a></li>
+    </ul>
+  </div>
+</div>
+<br/>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        Chart
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <% @model.sensors.each do |sensor| %>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><%= sensor.name %></h3>
+          <span class="temperature pull-right"><%= sensor.current_temperature %>°C</span>
+        </div>
+        <div class="panel-body">
+          Chart
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
