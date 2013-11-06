@@ -1,3 +1,50 @@
 // Place all the styles related to the dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.panel > .panel-body {
+  padding: 15px 0 0 0;
+}
+
+svg {
+  font-size: 10px;
+  border-radius: 3px;
+  position: relative;
+  top: 25px;
+
+  text: {
+    color: #d8d8d8;
+  }
+
+  path.line {
+    fill: none;
+    stroke: #666;
+    stroke-width: 1.5px;
+  }
+
+  path.area {
+    fill: #e7e7e7;
+  }
+
+  .axis {
+    shape-rendering: crispEdges;
+  }
+
+  .x.axis line {
+    stroke: #fff;
+  }
+
+  .x.axis .minor {
+    stroke-opacity: .5;
+  }
+
+  .x.axis path {
+    display: none;
+  }
+
+  .y.axis line, .y.axis path {
+    fill: none;
+    stroke: #000;
+  }
+}
+
+
