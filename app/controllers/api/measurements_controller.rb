@@ -4,6 +4,7 @@ class Api::MeasurementsController < ApplicationController
   # Alle Measurements ermitteln.
   def index
     ms = Measurement.order(:created_at)
+      # .where("created_at > ?", DateTime.now - 3.days) 
     render json: ms
   end
 

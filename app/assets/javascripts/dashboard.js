@@ -10,8 +10,13 @@
    */
   function placeChart(element, data) {
     var sensor = $(element).data('sensor');
-
     if (sensor === undefined) return;
+
+    // Filter to one sensor;
+    var values = data.filter(function(d) {
+      return d.sensor == sensor;
+    });
+    if (values.length === 0) return;
 
     var margin = {top: 0, right: 0, bottom: 20, left: 0},
         width = parseInt(d3.select(element).style('width'), 10) - margin.left - margin.right,
@@ -35,12 +40,6 @@
         .interpolate("monotone")
         .x(function(d) { return x(d.created_at); })
         .y(function(d) { return y(d.value); });
-
-
-    // Filter to one sensor;
-    var values = data.filter(function(d) {
-      return d.sensor == sensor;
-    });
 
     // Compute the minimum and maximum date, and the maximum value.
     x.domain([values[0].created_at, values[values.length - 1].created_at]);
@@ -112,7 +111,7 @@
           d.created_at = parse(d.created_at);
           d.value = +d.value;
         });
-        $(".panel-body").each(function(i, panel) {
+        $(".chart").each(function(i, panel) {
           placeChart(panel, data);
         });
       }

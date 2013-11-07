@@ -19,25 +19,16 @@
   </div>
 </div>
 <br/>
-<div class="row">
-  <div class="col-md-12">
-    <div class="panel panel-default">
-      <div class="panel-body">
-      </div>
+<% @model.sensors.each do |sensor| %>
+  <div class="row panel panel-body">
+    <div class="col-sm-3">
+      <h5><%= sensor.name %></h5>
+      <h3 class="temperature">
+        <%= sensor.current_temperature %><sup>°C</sup>
+      </h3>
+    </div>
+    <div class="col-sm-9">
+      <div class="chart" data-sensor="<%= sensor.name %>"></div>
     </div>
   </div>
-</div>
-<div class="row">
-  <% @model.sensors.each do |sensor| %>
-    <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"><%= sensor.name %></h3>
-          <span class="temperature pull-right"><%= sensor.current_temperature %>°C</span>
-        </div>
-        <div class="panel-body" data-sensor="<%= sensor.name %>">
-        </div>
-      </div>
-    </div>
-  <% end %>
-</div>
+<% end %>
