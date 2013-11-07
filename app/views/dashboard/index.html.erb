@@ -35,7 +35,7 @@
           <h3 class="panel-title"><%= sensor.name %></h3>
           <span class="temperature pull-right"><%= sensor.current_temperature %>°C</span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" data-sensor="<%= sensor.name %>">
         </div>
       </div>
     </div>

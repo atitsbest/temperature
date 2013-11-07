@@ -1,4 +1,5 @@
 class Api::MeasurementsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   
   # Alle Measurements ermitteln.
   def index
