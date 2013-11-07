@@ -1,4 +1,4 @@
-symbol,date,price
+sensor,date,value
 S&P 500,Jan 2000,1394.46
 S&P 500,Feb 2000,1366.42
 S&P 500,Mar 2000,1498.58
