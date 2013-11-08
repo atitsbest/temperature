@@ -3,13 +3,13 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 ['Kl. Saal', 'Gr. Saal', 'Hr. WC', 'Büro'].each do |sensor|
-  time = DateTime.now - 2.weeks
-  v = 20000 # Startwert 20° 
+  time = DateTime.now - 2.week
+  v = 2000 # Startwert 20° 
   while (time < DateTime.now) do
     # Temperature per "Random Walk" erstellen.
-    v = [9000, [35000, v + 10 * (rand - 0.5)].min].max.floor
+    v = [900, [3500, v + 200 * (rand - 0.5)].min].max.floor
 
     Measurement.create(sensor: sensor, value: v, created_at: time)
-    time += 10.minutes
+    time += 100.minutes
   end
 end

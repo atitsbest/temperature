@@ -1,12 +1,17 @@
 //= require underscore
 //= require highcharts
-//= require exporting
 (function() {
 
   var chart_options = {
     chart: {
-        type: 'spline'
+        type: 'spline',
+        height: 200,
+        backgroundColor: '#A6C776',
+        borderColor: '#fff'
     },
+    colors: [
+      '#fff'
+    ],
     title: {
         text: ''
     },
@@ -18,18 +23,43 @@
         dateTimeLabelFormats: { // don't display the dummy year
             month: '%e. %b',
             year: '%b'
-        }
+        },
+        labels: {
+          style: { color: 'rgba(0,0,0, .2)' }
+        },
+        tickColor: '#A0C170',
+        lineColor: '#A0C170'
     },
     yAxis: {
         title: {
-            text: 'Temperatur (°C)'
+            text: ''
         },
-        min: 0
+        labels: {
+          style: { color: 'rgba(0,0,0, .2)' }
+        },
+        min: 9,
+        gridLineColor: '#A0C170',
+        gridLineDashStyle: 'ShortDash',
+        lineColor: '#CEE3B0'
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        spline: {
+            lineWidth: 2,
+            marker: {
+                enabled: false
+            },
+            pointInterval: 3600000 // one hour
+            // pointStart: Date.UTC(2009, 9, 6, 0, 0, 0)
+        }
     },
     tooltip: {
+        enabled: false,
         formatter: function() {
                 return '<b>'+ this.series.name +'</b><br/>'+
-                Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y +' m';
+                Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y +' °C';
         }
     }
   };
@@ -41,7 +71,7 @@
 
         $(data).each(function(i, d) {
           d.date = new Date(d.date);
-          d.value = +d.value / 1000.0;
+          d.value = +d.value / 100.0;
         });
         $(".chart").each(function(i, panel) {
 
