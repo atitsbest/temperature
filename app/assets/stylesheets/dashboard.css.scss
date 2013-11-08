@@ -2,11 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .row.sensor {
-  background: #A6C776;
+  background: #fff;
   color: #fff;
-  margin-bottom: 20px;
+  // margin-top: 10px;
+  // margin-bottom: 10px;
   min-height: 250px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
+  // border-radius: 5px;
 
   .name {
     padding-top: 7px;
@@ -19,7 +21,14 @@
 
   .temperature {
     text-align: right;
-    sup {
+
+    > small {
+      color: #fff;
+      opacity: .5;
+      font-size: .4em;
+    }
+
+    > sup {
       font-size: .5em;
       font-weight: normal;
       position: relative;
