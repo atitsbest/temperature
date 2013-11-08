@@ -13,4 +13,12 @@ class Measurement < ActiveRecord::Base
         .order(:created_at)
         .last.value
   end
+
+  # Liefert das Datum des letzten Eintrags für den Sensor
+  def self.last_update_for sensor_name
+    self.select(:created_at)
+        .where(:sensor => sensor_name)
+        .order(:created_at)
+        .last.created_at
+  end
 end

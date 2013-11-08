@@ -21,8 +21,8 @@ describe DashboardController do
 
       model = assigns :model
       expect(model.sensors.length).to eq 2
-      model.sensors[0].current_temperature.should be 13.500
-      model.sensors[1].current_temperature.should be 31.130
+      [13.50, 31.13].should include model.sensors[1].current_temperature
+      [13.50, 31.13].should include model.sensors[0].current_temperature
     end
   end
 

@@ -3,7 +3,10 @@
     <div class="col-sm-12">
       <h4 class="name pull-left">
         <%= sensor.name %>
-        <small>Heute 12:23:15</small>
+        <small>
+          <span class="glyphicon glyphicon-time"></span>
+          <%= distance_of_time_in_words_to_now(sensor.last_update) %>
+        </small>
       </h4>
       <h3 class="temperature pull-right">
         <%= sensor.current_temperature %><sup>°C</sup>

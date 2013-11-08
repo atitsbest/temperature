@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
     @model.sensors = Measurement.sensor_names.map do |name|
       sensor = DashboardIndex::Sensor.new name
       sensor.current_temperature = (Measurement.current_temperature_for name) / 100.0
+      sensor.last_update = Measurement.last_update_for name
       # sensor.average_temperature = Measurement.average_temperature_for name
       sensor
     end

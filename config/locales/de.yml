@@ -1,0 +1,74 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+de:
+  defaults: &defaults
+    month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
+    day_names: [Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]
+    formats:
+       default: "%A, %d. %B %Y"
+       short: "%d.%m.%Y"
+  date:
+    <<: *defaults
+    order:
+      - day
+      - month
+      - year
+    
+  time:
+    <<: *defaults
+
+  # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
+  datetime:
+    <<: *defaults
+    distance_in_words:
+      half_a_minute: "halbe Minute"
+      less_than_x_seconds:
+        one:  "weniger als 1 Sekunde"
+        other: "weniger als %{count} Sekunden"
+      x_seconds:
+        one:  "1 Sekunde"
+        other: "%{count} Sekunden"
+      less_than_x_minutes:
+        one:  "weniger als eine Minute"
+        other: "weniger als %{count} Minuten"
+      x_minutes:
+        one:  "1 Minute"
+        other: "%{count} Minuten"
+      about_x_hours:
+        one:  "ca. 1 Stunde"
+        other: "ca. %{count} Stunden"
+      x_days:
+        one:  "1 Tag"
+        other: "%{count} Tage"
+      about_x_months:
+        one:  "ca. 1 Monat"
+        other: "ca. %{count} Monate"
+      x_months:
+        one:  "1 Monat"
+        other: "%{count} Monate"
+      about_x_years:
+        one:  "ca. 1 Jahr"
+        other: "ca. %{count} Jahre"
+      over_x_years:
+        one:  "über 1 Jahr"
+        other: "über %{count} Jahre"
+

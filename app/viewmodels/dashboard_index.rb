@@ -1,7 +1,8 @@
 class DashboardIndex
   class Sensor
     attr_accessor :name, 
-                  :current_temperature
+                  :current_temperature,
+                  :last_update
 
     # CTR
     def initialize name
