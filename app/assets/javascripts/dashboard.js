@@ -59,13 +59,11 @@
               lineWidth: 2,
               marker: {
                   enabled: false
-              },
-              pointInterval: 3600000 // one hour
-              // pointStart: Date.UTC(2009, 9, 6, 0, 0, 0)
+              }
           }
       },
       tooltip: {
-          enabled: false,
+          enabled: true,
           formatter: function() {
                   return '<b>'+ this.series.name +'</b><br/>'+
                   Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y +' °C';
@@ -77,36 +75,52 @@
     };
   }
 
+  function prepare_data(data) 
+  {
+      $(data).each(function(i, d) {
+        d.value = +d.value / 100.0;
+      });
+  }
+
+  function create_serie_for(data, name)
+  {
+      var values = _.chain(data).
+        where({sensor: name}).
+        map(function(v) { return [v.date, v.value]; }).
+        value();
+    
+      return {
+        name: name,
+        data: values
+      };
+  }
+
 
   $(function() {
-    $.when($.getJSON("/api/measurements.json")).
-      then(function(data) {
+    $.when($.getJSON("/api/measurements.json"),
+           $.getJSON("/api/measurements/chunked/10.json")).
+      then(function(data1, data2) {
+        var data = data1[0],
+            chunked = data2[0];
 
-        $(data).each(function(i, d) {
-          d.date = new Date(d.date);
-          d.value = +d.value / 100.0;
-        });
+        prepare_data(data);
+        prepare_data(chunked);
+
         $(".chart").each(function(i, panel) {
 
           var sensor = $(panel).data('sensor');
           if (sensor !== undefined) {
 
+            // Farbe für diesen Chart.
             var current_colors = colors[i%colors.length];
           
             // Daten für den einen Sensor filtern.
-            var values = _.chain(data).
-              where({sensor: sensor}).
-              map(function(v) { return [v.date, v.value]; }).
-              value();
-          
-            var serie = {
-              name: sensor,
-              data: values
-            };
+            var serie = create_serie_for(data, sensor);
+            var serie_chunked = create_serie_for(chunked, sensor);
 
             var options = _.extend(
               generate_options(current_colors),
-              { series: [serie] });
+              { series: [serie_chunked, serie] });
 
             // Chart in der DOM platzieren.
             $(panel)
