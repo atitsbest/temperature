@@ -78,16 +78,14 @@
   function prepare_data(data) 
   {
       $(data).each(function(i, d) {
-        d.value = +d.value / 100.0;
+        d.v = +d.v / 100.0;
       });
   }
 
   function create_serie_for(data, name)
   {
-      var values = _.chain(data).
-        where({sensor: name}).
-        map(function(v) { return [v.date, v.value]; }).
-        value();
+      var values = data[name]
+        .map(function(v) { return [v.d, v.v]; });
     
       return {
         name: name,
@@ -97,14 +95,9 @@
 
 
   $(function() {
-    $.when($.getJSON("/api/measurements.json"),
-           $.getJSON("/api/measurements/chunked/10.json")).
-      then(function(data1, data2) {
-        var data = data1[0],
-            chunked = data2[0];
-
+    $.when($.getJSON("/api/measurements.json")).
+      then(function(data) {
         prepare_data(data);
-        prepare_data(chunked);
 
         $(".chart").each(function(i, panel) {
 
@@ -116,11 +109,10 @@
           
             // Daten für den einen Sensor filtern.
             var serie = create_serie_for(data, sensor);
-            var serie_chunked = create_serie_for(chunked, sensor);
 
             var options = _.extend(
               generate_options(current_colors),
-              { series: [serie_chunked, serie] });
+              { series: [serie] });
 
             // Chart in der DOM platzieren.
             $(panel)

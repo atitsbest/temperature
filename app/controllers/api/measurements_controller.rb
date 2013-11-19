@@ -3,8 +3,13 @@ class Api::MeasurementsController < ApplicationController
   
   # Alle Measurements ermitteln.
   def index
-    ms = Measurement.order(:created_at)
-    render json: ms
+    redis = Redis.new
+
+    result = Measurement.sensor_names.map do |sensor|
+      "\"#{sensor}\": [" << redis.zrange("#{sensor}:all", 0, -1).join(',') << "]"
+    end
+
+    render json: "{#{result.join(',')}}"
   end
 
   # Measurement erstellen.
@@ -13,30 +18,6 @@ class Api::MeasurementsController < ApplicationController
       m.created_at = DateTime.now
     end
     render text: '', status: 201
-  end
-
-  # Dataset decimated
-  def chunked
-    ms = Measurement.order(:created_at)
-    result = []
-
-    count = (params[:count] || '10').to_i
-  
-    # Nach Sensor gruppieren
-    ms.group_by {|m| m.sensor}.each do |key, value|
-
-      # in chunks unterteilen
-      chunked = value.each_slice(count).to_a
-      # Durchschnitt ermitteln.
-      chunked.map do |c|
-        value = c.inject(0.0) { |sum, el| sum + el.value } / c.size
-        created_at = c.last.created_at
-        result << Measurement.new({sensor: key, value: value, created_at: created_at})
-      end
-
-    end
-    
-    render json: result
   end
 
   private

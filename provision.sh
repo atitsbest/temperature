@@ -55,6 +55,17 @@ rbenv rehash
 sudo rbenv exec gem install rails 
 rbenv rehash
 
+# Redis installieren
+echo 'Redis installieren...'
+cd /var/
+wget http://download.redis.io/redis-stable.tar.gz
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+make
+cd src
+sudo cp redis-server /usr/local/bin/
+sudo cp redis-cli /usr/local/bin/
+
 # Postgresql Benutzer und DB anlegen
 sudo pg_dropcluster --stop 9.1 main
 sudo pg_createcluster --start --locale en_US.UTF-8 9.1 main

@@ -1,28 +1,12 @@
-== README
+== Anforderungen
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+ * Aktuelle Temperatur für jeden Sensor anzeigen.
+  - Ändert sich eine Temperatur, muss dazu die Seite nicht neu geladen werden.
+ * Dauer seit der letzten Messung für jeden Sensor anzeigen.
+ * Temperaturverlauf für jeden Sensor einzeln anzeigen
+  - der letzten 24h
+  - der letzten 7 Tage
+  - des letzten Monats
+  - des letzten Jahres
+  - alle
+ * Maximal/Minimal/Durchschnitts-Temperatur für jeden Sensor anzeigen.
