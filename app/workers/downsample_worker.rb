@@ -45,8 +45,8 @@ class DownsampleWorker
         offset += chunk_size
         
         # Eintrag erstellen
-        avg_value = chunks.inject(0) { |sum, c| sum + c.value.to_i } / chunks.size
-        avg_date = chunks.inject(0) { |sum, c| sum + c.created_at.to_i } / chunks.size
+        avg_value = chunks.inject(0) { |sum, c| sum + c.value.to_i } / [chunks.size,1].max
+        avg_date = chunks.inject(0) { |sum, c| sum + c.created_at.to_i } / [chunks.size, 1].max
         entry = RedisService.entry avg_date, avg_value
         
         # In Redis speichern
