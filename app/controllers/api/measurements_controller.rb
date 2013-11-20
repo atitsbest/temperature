@@ -14,9 +14,19 @@ class Api::MeasurementsController < ApplicationController
 
   # Measurement erstellen.
   def create
-    Measurement.create!(safe_params) do |m|
+    # Datenbank-Eintrag erstellen.
+    mm = Measurement.create!(safe_params) do |m|
       m.created_at = DateTime.now
     end
+
+    # Neuen Wert in Redis speichern.
+    redis = Redis.new
+    key = RedisService.key mm.sensor
+    entry = RedisService.entry mm.date, mm.value
+    score = RedisService.score mm.date
+
+    redis.zadd key, score, entry
+
     render text: '', status: 201
   end
 
