@@ -1,5 +1,8 @@
 //= require underscore
 //= require highcharts
+//= require jquery.timeago
+//= require jquery.timeago.de
+//
 (function() {
 
   var colors= [
@@ -60,6 +63,9 @@
               marker: {
                   enabled: false
               }
+          },
+          area: {
+            fillColor: 'rgba(255,255,255,.1)'
           }
       },
       tooltip: {
@@ -125,7 +131,10 @@
         source.addEventListener('update', function(e) {
         update = JSON.parse(e.data);
         temp = update.data.v / 100.0;
-        $('[data-sensor="' + update.sensor + '"] .temperature > span').text(temp);
+        ago = $.timeago(new Date(update.data.d*1000));
+        $sensor = $('[data-sensor="' + update.sensor + '"]');
+        $sensor.find('.temperature > span').text(temp);
+        $sensor.find('.timeago > .val').text(ago);
       });
       
   });
