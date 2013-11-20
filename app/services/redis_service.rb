@@ -1,7 +1,7 @@
 class RedisService
 
   def self.entry(date, value)
-    "{\"d\":#{date},\"v\":#{value}}"
+    "{\"d\":#{date.to_i},\"v\":#{value}}"
   end
 
   def self.key(sensor)

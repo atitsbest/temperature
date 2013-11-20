@@ -75,17 +75,10 @@
     };
   }
 
-  function prepare_data(data) 
-  {
-      $(data).each(function(i, d) {
-        d.v = +d.v / 100.0;
-      });
-  }
-
   function create_serie_for(data, name)
   {
       var values = data[name]
-        .map(function(v) { return [v.d, v.v]; });
+        .map(function(v) { return [v.d*1000, v.v/100.0]; });
     
       return {
         name: name,
@@ -97,13 +90,10 @@
   $(function() {
     $.when($.getJSON("/api/measurements.json")).
       then(function(data) {
-        prepare_data(data);
-
-        $(".chart").each(function(i, panel) {
+        $(".sensor").each(function(i, panel) {
 
           var sensor = $(panel).data('sensor');
           if (sensor !== undefined) {
-
             // Farbe für diesen Chart.
             var current_colors = colors[i%colors.length];
           
@@ -115,16 +105,12 @@
               { series: [serie] });
 
             // Chart in der DOM platzieren.
-            $(panel)
+            $(panel).find('.chart')
               .highcharts(options);
 
             // TODO: Hintegrundfarbe setzten besser machen!
-            $(panel)
-              .parent().parent().css('background', current_colors[0]);
-
-
+            $(panel).css('background', current_colors[0]);
           }
-
 
         });
 
@@ -132,6 +118,16 @@
       fail(function(error) {
         alert(error);
       });
+
+
+      // SSE für Temperaturänderungen init.
+      var source = new EventSource('/realtime/measurements');
+        source.addEventListener('update', function(e) {
+        update = JSON.parse(e.data);
+        temp = update.data.v / 100.0;
+        $('[data-sensor="' + update.sensor + '"] .temperature > span').text(temp);
+      });
+      
   });
 
 })();

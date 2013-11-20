@@ -1,5 +1,5 @@
 <% @model.sensors.each do |sensor| %>
-  <div class="row sensor">
+  <div class="row sensor" data-sensor="<%= sensor.name %>">
     <div class="col-sm-12">
       <h4 class="name pull-left">
         <%= sensor.name %>
@@ -9,11 +9,11 @@
         </small>
       </h4>
       <h3 class="temperature pull-right">
-        <%= sensor.current_temperature %><sup>°C</sup>
+        <span><%= sensor.current_temperature %></span><sup>°C</sup>
       </h3>
     </div>
     <div class="col-sm-12">
-      <div class="chart" data-sensor="<%= sensor.name %>"></div>
+      <div class="chart"></div>
     </div>
   </div>
 <% end %>

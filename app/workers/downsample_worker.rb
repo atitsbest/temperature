@@ -2,6 +2,9 @@
 # zwischenspeichern.
 class DownsampleWorker
   include Sidekiq::Worker
+  include Sidetiq::Schedulable
+
+  recurrence { hourly(3) }
 
   MAX_MEASUREMENTS = 500
 
@@ -50,6 +53,13 @@ class DownsampleWorker
         # Rails.logger.debug "Add #{entry} to redis"
         redis.zadd(redis_temp_key, avg_date, entry)
       end
+      
+      # Letzten Eintrag immer mitnehmen.
+      last = Measurement.where(:sensor => sensor).order(:created_at).last
+      redis.zadd(redis_temp_key, 
+                 RedisService.score(last.created_at), 
+                 RedisService.entry(last.created_at, last.value))
+
       # Rails.logger.debug "Temporary set for sensor #{sensor} finished."
     
       redis.multi do

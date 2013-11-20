@@ -26,6 +26,9 @@ module Temperature
     config.i18n.default_locale = :de
 
     # Downsampling anstarten.
-    # DownsampleWorker.perform()
+    config.after_initialize do
+      DownsampleWorker.perform_async
+    end
+    # 
   end
 end

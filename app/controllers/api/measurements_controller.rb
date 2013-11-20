@@ -22,10 +22,11 @@ class Api::MeasurementsController < ApplicationController
     # Neuen Wert in Redis speichern.
     redis = Redis.new
     key = RedisService.key mm.sensor
-    entry = RedisService.entry mm.date, mm.value
-    score = RedisService.score mm.date
+    entry = RedisService.entry mm.created_at, mm.value
+    score = RedisService.score mm.created_at
 
     redis.zadd key, score, entry
+    redis.publish('temperature_update', "{\"sensor\": \"#{mm.sensor}\", \"data\": #{entry}}")
 
     render text: '', status: 201
   end
@@ -35,4 +36,5 @@ class Api::MeasurementsController < ApplicationController
     def safe_params
       params.require(:measurement).permit(:sensor, :value)
     end
+    
 end
