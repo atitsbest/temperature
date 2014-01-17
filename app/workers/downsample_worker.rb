@@ -1,11 +1,6 @@
 # Temperatur-Daten aus der DB downsamplen und in Redis
 # zwischenspeichern.
 class DownsampleWorker
-  include Sidekiq::Worker
-  include Sidetiq::Schedulable
-
-  recurrence { hourly(3) }
-
   MAX_MEASUREMENTS = 500
 
   def perform
