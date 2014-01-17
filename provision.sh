@@ -66,6 +66,15 @@ cd src
 sudo cp redis-server /usr/local/bin/
 sudo cp redis-cli /usr/local/bin/
 
+# Node.js installieren
+echo 'Node.js installieren...'
+sudo apt-get update
+sudo apt-get install -y python-software-properties python g++ make
+sudo add-apt-repository -y ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs
+
+
 # Postgresql Benutzer und DB anlegen
 sudo pg_dropcluster --stop 9.1 main
 sudo pg_createcluster --start --locale en_US.UTF-8 9.1 main

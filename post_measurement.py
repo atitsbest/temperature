@@ -4,7 +4,7 @@
 import json
 import urllib2
  
-data = {'measurement': { 'sensor':'Kl. Saal', 'value': 2453} }
+data = {'measurement': { 'sensor':'Kl. Saal', 'value': 2569} }
 data = json.dumps(data)
  
 url = "http://localhost:8090/api/measurements"
